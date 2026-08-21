@@ -1,8 +1,7 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from sqlmodel import SQLModel, Session, select
-from ..app.utils.db import engine, get_session
-from ..app.models.user import User
+from sqlmodel import SQLModel
+from app.database import engine
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -16,9 +15,3 @@ app = FastAPI(lifespan=lifespan)
 @app.get("/")
 def home():
     return {"message": "Hello World"}
-
-@app.get("/users", response_model=list[User])
-def list_users(session: Session = Depends(get_session)):
-    stmt = select(User)
-    users = session.exec(stmt).all()
-    return users
