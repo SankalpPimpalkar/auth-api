@@ -11,3 +11,6 @@ class User(UserBase, table=True):
 
 class CreateUser(UserBase):
     pass
+
+class UpdateUser(UserBase):
+    pass
